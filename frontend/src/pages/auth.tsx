@@ -12,12 +12,12 @@ export function Auth() {
       <div className="App">
         <header className="App-header">
           <h1> Register </h1>
-          <form method="POST" action="/users/create">
+          <form action="/users/create" method="post">
             <label htmlFor="name"> Full name: </label>
             <input
               type="text"
               name="name"
-              id="nameInput"
+              id="name"
               placeholder="Full name"
               required
               autoFocus
@@ -27,7 +27,7 @@ export function Auth() {
             <input
               type="email"
               name="email"
-              id="emailInput"
+              id="email"
               placeholder="Email..."
               required
             ></input>
@@ -36,18 +36,15 @@ export function Auth() {
             <input
               type="password"
               name="password"
-              id="passwordInput"
+              id="password"
               placeholder="*************"
               required
             ></input>
-            <button type="submit"> Register </button>
+            <input type="submit" value="Submit" />
           </form>
           <small>
             {" "}
-            Already logged in?{" "}
-            <a>
-              login here
-            </a>
+            Already logged in? <a>login here</a>
           </small>
         </header>
       </div>
