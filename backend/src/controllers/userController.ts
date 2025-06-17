@@ -9,7 +9,7 @@ export const getUsers = (req: Request, res: Response, next: NextFunction) => {
       (err: Error, rows: Array<object>) => {
         if (err) res.send(err)
         else {
-            res.send(rows)
+            res.status(200).json(rows);
         }
       },
     );
@@ -22,38 +22,49 @@ export const getUsers = (req: Request, res: Response, next: NextFunction) => {
 export const createUser = (req: Request, res: Response, next: NextFunction) => {
   try {
     const { name, email, password } = req.body;
-    console.log('name', name);
-    console.log('email', email);
-    console.log('password', password);
+
     if (!name || !email || !password) {
-      res.send(error);
+      res.status(404).json("ENTER ALL FIELDS");
     }
     db.run(
       'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
       name,
       email,
       password,
-      (err: Error) => {
-        if (err) res.status(404).json(err);
+      (error: Error) => {
+        if (error) {
+          next(error);
+        } else {
+          res.status(201).json({name, email });
+        };
       },
     );
 
-    res.status(201).json({name, email})
-    // res.json(items);
   } catch (error) {
     next(error);
   }
 };
 
 // Read single user
-export const getUserById = (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const getUserById = (req: Request, res: Response, next: NextFunction) => {
   try {
+    const id = req.params.id;
+    if (!id) {
+      res.status(404).json("ENTER ALL FIELDS");
+    }
+    db.get(
+      'SELECT * FROM users WHERE id=?',
+      id,
+      (error: Error, row: Array<object>) => {
+        if (error) {
+          next(error);
+        } else {
+          res.status(201).json(row);
+        };
+      },
+    );
   } catch (error) {
-    next(error);
+    next(error)
   }
 };
 
@@ -68,5 +79,24 @@ export const updateUser = (req: Request, res: Response, next: NextFunction) => {
 // Delete an user
 export const deleteUser = (req: Request, res: Response, next: NextFunction) => {
   try {
-  } catch (error) {}
+    const id = req.params.id;
+
+    if (!id) {
+      res.status(404).json("ID not valid");
+    }
+    db.run(
+      'DELETE FROM users WHERE id=?;',
+      id,
+      (error: Error) => {
+        if (error) {
+          next(error);
+        } else {
+          res.status(201).json({message: "deleted user with id", id });
+        };
+      },
+    );
+
+  } catch (error) {
+    next(error);
+  }
 };
