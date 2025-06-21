@@ -1,11 +1,5 @@
-node_modules
-package-lock.json
-*package-lock.json
-*.json
-dist
-*.db
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-uploads/
+
 # dependencies
 /node_modules
 /.pnp
@@ -27,6 +21,3 @@ uploads/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-*.env
-.env
-env

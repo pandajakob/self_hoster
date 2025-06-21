@@ -22,7 +22,9 @@ export function Auth(setUser: any) {
         console.log("error");
       }
       let data = await response.json();
+
       console.log(data);
+      console.log("cookie",document.cookie);
       setUser(data);
     } catch (error) {
       console.log(error);

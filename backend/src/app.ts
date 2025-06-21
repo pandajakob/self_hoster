@@ -1,5 +1,7 @@
 import express from 'express';
 import userRoutes from './routes/userRoutes.js';
+import fileRotes from './routes/fileRoutes.js';
+
 import { errorHandler } from './middleware/errorHandler.js';
 import path from 'path'
 import {  dirname } from 'path';
@@ -20,6 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use('/users', userRoutes);
+app.use('/files', fileRotes);
 
 // Global error handler (should be after routes)
 app.use(errorHandler);
