@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 
+
 export const getUsers = (req: Request, res: Response, next: NextFunction) => {
   try {
     db.all('SELECT * FROM users;', (err: Error, rows: Array<object>) => {
@@ -18,18 +19,12 @@ export const getUsers = (req: Request, res: Response, next: NextFunction) => {
 };
 
 // Read all items
-export const createUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const register = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
-       res
-        .status(401)
-        .json({ success: false, message: 'Provide all fields' });
+      res.status(401).json({ success: false, message: 'Provide all fields' });
     }
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -47,19 +42,20 @@ export const createUser = async (
         } else {
           const secret = process.env.JWT_SECRET;
           if (!secret) {
-          throw new Error("Missing JWT_SECRET in environment");
+            throw new Error('Missing JWT_SECRET in environment');
           }
 
           const token = jwt.sign({ id: email }, secret, {
             expiresIn: '7d',
           });
+
           res.cookie('token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             sameSite: process.env.NODe_ENV === 'production' ? 'none' : 'strict',
             maxAge: 7*24*60*60*1000
           });
-          res.status(201).json({ name, email });
+          res.status(201).json({ success: true });
         }
       },
     );
@@ -68,12 +64,76 @@ export const createUser = async (
   }
 };
 
+export const login = async (req: Request, res: Response, next: NextFunction) => {
+
+    try {
+      const { email, password } = req.body;
+
+      if (!email || !password) {
+        res.status(401).json({ success: false, message: 'Provide all fields' });
+      }
+      const user: User = await fetchByEmail(email);
+      if (!user) {
+        res.status(402).json({ success: false, message: 'Email or password is incorrect' });
+        return;
+      }
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) {
+        res.status(402).json({ success: false, message: 'Email or password is incorrect' });
+        return;
+      }
+      const secret = process.env.JWT_SECRET;
+      if (!secret) {
+        throw new Error('Missing JWT_SECRET in environment');
+      }
+      const token = jwt.sign({ id: email }, secret, {
+        expiresIn: '7d',
+      });
+
+      res.cookie('token', token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: process.env.NODe_ENV === 'production' ? 'none' : 'strict',
+        maxAge: 7 * 24 * 60 * 60 * 1000,
+      });
+      res.json({ success: true, message: 'successfully signed in user' });
+    } catch (err) {
+      next(err);
+    }
+}
+
+
+
+const fetchByEmail = async (email: string) => {
+  return new Promise<User>((resolve, reject) => {
+    db.get(
+      'SELECT * FROM users WHERE email=?',
+      email,
+      (error: Error, row: User) => {
+        if (error) reject(error); 
+        else resolve(row);
+      },
+    );
+  });
+};
+
+
+export const logout = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    res.clearCookie('token', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: process.env.NODe_ENV === 'production' ? 'none' : 'strict',
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+    res.json({success: true})
+  } catch (err) {
+    next(err);
+  }
+}
+
 // Read single user
-export const getUserById = (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
+export const getUserById = (req: Request, res: Response, next: NextFunction) => {
   try {
     const id = req.params.id;
     if (!id) {
@@ -82,7 +142,7 @@ export const getUserById = (
     db.get(
       'SELECT * FROM users WHERE id=?',
       id,
-      (error: Error, row: Array<object>) => {
+      (error: Error, row: Array<User>) => {
         if (error) {
           next(error);
         } else {

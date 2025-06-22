@@ -1,7 +1,7 @@
 import express from 'express';
 import userRoutes from './routes/userRoutes.js';
 import fileRotes from './routes/fileRoutes.js';
-
+import cookieParser from 'cookie-parser';
 import { errorHandler } from './middleware/errorHandler.js';
 import path from 'path'
 import {  dirname } from 'path';
@@ -15,7 +15,7 @@ const dirPath = path.join(__dirname, '..', '..','frontend', 'build');
 
 // static files
 app.use('/', express.static(dirPath))
-
+app.use(cookieParser())
 // initialize server
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
