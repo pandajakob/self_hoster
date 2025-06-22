@@ -55,7 +55,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
             sameSite: process.env.NODe_ENV === 'production' ? 'none' : 'strict',
             maxAge: 7*24*60*60*1000
           });
-          res.status(201).json({ success: true });
+          res.status(201).json({success: true, message: "Successfully registered user"});
         }
       },
     );
@@ -126,7 +126,7 @@ export const logout = async (req: Request, res: Response, next: NextFunction) =>
       sameSite: process.env.NODe_ENV === 'production' ? 'none' : 'strict',
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-    res.json({success: true})
+    res.json({success: true, message: "successfully logged out"})
   } catch (err) {
     next(err);
   }

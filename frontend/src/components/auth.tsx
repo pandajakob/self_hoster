@@ -1,6 +1,15 @@
 import { FormEvent, useState } from "react";
-
-export function Auth(setUser: any) {
+import { Loader } from "./loader";
+// 1) Define the shape of your user object (as returned by your API)
+interface User {
+  name: string;
+  email: string;
+  // any other fields you return…
+}
+interface AuthProps {
+  onSetUser: (user: User) => void;
+}
+export function Auth({onSetUser}:AuthProps) {
   const [isLoading, setLoading] = useState(false);
 
   // user data:
@@ -10,22 +19,21 @@ export function Auth(setUser: any) {
 
   async function register(e: FormEvent<HTMLFormElement>) {
     setLoading(true);
-    e.preventDefault();
     const user = { name, email, password };
     try {
-      let response = await fetch("/users/create/", {
+      let response = await fetch("/users/register/", {
         method: "post",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(user),
       });
       if (!response.ok) {
-        console.log("error");
+        console.log("error", response.statusText);
       }
       let data = await response.json();
 
-      console.log(data);
-      console.log("cookie",document.cookie);
-      setUser(data);
+      console.log("data",data);
+
+      onSetUser(data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -33,7 +41,7 @@ export function Auth(setUser: any) {
     }
   }
   if (isLoading) {
-    return <h1> loading...</h1>;
+    return <Loader/>;
   }
 
   return (

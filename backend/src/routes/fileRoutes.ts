@@ -6,7 +6,7 @@ import { Request, Response, NextFunction } from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import { existsSync, mkdir } from 'fs';
+import { existsSync, mkdirSync } from 'fs';
 import { authenticator } from '../middleware/authenticator.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
     console.log("usrid:",userId)
     const uploadPath = path.join(__dirname, '..', 'db', `uploads`, `${userId}`);
     if (!existsSync(uploadPath)) {
-      mkdir(uploadPath, () => {});
+      mkdirSync(uploadPath,{recursive: true});
     }
     cb(null, uploadPath);
   },

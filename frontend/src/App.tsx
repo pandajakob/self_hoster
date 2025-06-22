@@ -15,8 +15,8 @@ function App() {
   return (
     <main>
 
-      {!user ? <Auth setUser={updateUser} /> : <h1>Front Page</h1>}
-    
+      {!user ? <Auth onSetUser={updateUser} /> : <h1>Front Page</h1>}
+      
       <FileUploader />
 
 

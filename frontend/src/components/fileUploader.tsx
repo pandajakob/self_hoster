@@ -1,7 +1,9 @@
 import { ChangeEvent, useEffect, useState, FormEvent } from "react";
+import { Loader } from "./loader";
 
 export function FileUploader() {
   const [file, setFile] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   useEffect(() => {
     console.log("File updated:", file);
@@ -17,14 +19,12 @@ export function FileUploader() {
   }
 
   async function handleFileUpload(e: FormEvent<HTMLFormElement>) {
+    
     if (!file) return;
     e.preventDefault();
     const formData = new FormData();
-    formData.append("userId", "user123");
-    formData.append("file", file);
-
     if (!formData) return;
-    console.log(formData)
+    setIsLoading(true)
     try {
       let response = await fetch("/files/upload/", {
         method: "post",
@@ -38,9 +38,12 @@ export function FileUploader() {
     } catch (error) {
       console.log(error);
     } finally {
+      setIsLoading(false)
     }
   }
-
+  if (isLoading) {
+    return <Loader/>
+  }
   return (
     <article>
       <input type="file" name="file" onChange={handleFileChange} />

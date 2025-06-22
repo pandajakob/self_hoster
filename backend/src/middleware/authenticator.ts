@@ -23,7 +23,7 @@ export const authenticator = (req: Request,res: Response,next: NextFunction) => 
         return;
       }
       req.user = user;
-      console.log("successfully authenthicated user:",req.user);
+      console.log("successfully authenthicated user:");
       next();
     });
   } catch (error) {
