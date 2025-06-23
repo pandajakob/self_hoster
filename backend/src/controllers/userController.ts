@@ -3,6 +3,7 @@ import db from '../db/db.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
+import { sqlite3 } from 'sqlite3';
 
 
 export const getUsers = (req: Request, res: Response, next: NextFunction) => {
@@ -33,30 +34,32 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
       name,
       email,
       hashedPassword,
-      (error: Error) => {
+      function (this: sqlite3.runResult, error: Error) {
         if (error) {
           return res.status(401).json({
             success: false,
             message: 'Could not create user in database',
           });
-        } else {
-          const secret = process.env.JWT_SECRET;
-          if (!secret) {
-            throw new Error('Missing JWT_SECRET in environment');
-          }
-
-          const token = jwt.sign({ id: email }, secret, {
-            expiresIn: '7d',
-          });
-
-          res.cookie('token', token, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: process.env.NODe_ENV === 'production' ? 'none' : 'strict',
-            maxAge: 7*24*60*60*1000
-          });
-          res.status(201).json({success: true, message: "Successfully registered user"});
         }
+        const id = this.lastID;
+        const secret = process.env.JWT_SECRET;
+        if (!secret) {
+          throw new Error('Missing JWT_SECRET in environment');
+        }
+
+        const token = jwt.sign({ id: id}, secret, {
+          expiresIn: '7d',
+        });
+
+        res.cookie('token', token, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === 'production',
+          sameSite: process.env.NODe_ENV === 'production' ? 'none' : 'strict',
+          maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
+        res
+          .status(201)
+          .json({ success: true, message: 'Successfully registered user' });
       },
     );
   } catch (error) {
@@ -142,11 +145,14 @@ export const getUserById = (req: Request, res: Response, next: NextFunction) => 
     db.get(
       'SELECT * FROM users WHERE id=?',
       id,
-      (error: Error, row: Array<User>) => {
+      (error: Error, row: User) => {
         if (error) {
           next(error);
         } else {
-          res.status(201).json(row);
+          row.password = "";
+          if (req.user?.id == id) return res.status(201).json(row);
+          else
+            res.status(401).json({ success: false, message: 'unauthorized' });
         }
       },
     );

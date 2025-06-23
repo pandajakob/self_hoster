@@ -9,7 +9,7 @@ interface User {
 interface AuthProps {
   onSetUser: (user: User) => void;
 }
-export function Auth({onSetUser}:AuthProps) {
+export function Register({onSetUser}:AuthProps) {
   const [isLoading, setLoading] = useState(false);
 
   // user data:
@@ -40,13 +40,14 @@ export function Auth({onSetUser}:AuthProps) {
       setLoading(false);
     }
   }
+
+  
   if (isLoading) {
     return <Loader/>;
   }
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <div className="container">
         <h1> Register </h1>
         <form onSubmit={register}>
           <label htmlFor="name"> Full name: </label>
@@ -91,10 +92,8 @@ export function Auth({onSetUser}:AuthProps) {
           <input type="submit" value="Submit" />
         </form>
         <small>
-          {" "}
           Already logged in? <a href="/">login here</a>
         </small>
-      </header>
     </div>
   );
 }

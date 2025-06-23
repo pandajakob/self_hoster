@@ -1,6 +1,10 @@
 
 export function Footer() {
-    return(<footer>This is the footer!!</footer>)
+    return (
+    <div className="header">
+ 
+    </div>
+  );
 }
 
 

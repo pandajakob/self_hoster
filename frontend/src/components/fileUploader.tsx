@@ -23,10 +23,11 @@ export function FileUploader() {
     if (!file) return;
     e.preventDefault();
     const formData = new FormData();
+    formData.append("file",file);
     if (!formData) return;
-    setIsLoading(true)
+    setIsLoading(true);
     try {
-      let response = await fetch("/files/upload/", {
+      const response = await fetch("/files/upload", {
         method: "post",
         body: formData,
       });

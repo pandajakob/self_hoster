@@ -15,10 +15,9 @@ const __dirname = dirname(__filename);
 const storage = multer.diskStorage({
   destination: (req: Request, file, cb) => {
     const userId = req.user?.id;
-    console.log('cookies: inside', req.cookies);
-    console.log("usrid:",userId)
     const uploadPath = path.join(__dirname, '..', 'db', `uploads`, `${userId}`);
     if (!existsSync(uploadPath)) {
+      console.log("creating new path, at:", uploadPath);
       mkdirSync(uploadPath,{recursive: true});
     }
     cb(null, uploadPath);
