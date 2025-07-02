@@ -2,8 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import db from '../db/db.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import dotenv from 'dotenv';
-import { sqlite3 } from 'sqlite3';
+
 
 
 export const getUsers = (req: Request, res: Response, next: NextFunction) => {
@@ -164,6 +163,7 @@ export const getUserById = (req: Request, res: Response, next: NextFunction) => 
 // Update an user
 export const updateUser = (req: Request, res: Response, next: NextFunction) => {
   try {
+    console.log("updating user here")
   } catch (error) {
     next(error);
   }

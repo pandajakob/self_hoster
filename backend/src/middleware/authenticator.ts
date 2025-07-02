@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response } from 'express';
-import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 
 
@@ -17,7 +16,7 @@ export const authenticator = (req: Request,res: Response,next: NextFunction) => 
       return;
     }
 
-    jwt.verify(req.cookies.token, secret, (err: any, user: any) => {
+    jwt.verify(req.cookies.token, secret, (err: object, user: User) => {
       if (err) {
         res.sendStatus(401);
         return;

@@ -1,4 +1,4 @@
-name: Can_compile
+name: can_compile
 run-name: ${{ github.actor }} is testing if typescript can compile
 on: [push]
 jobs:
