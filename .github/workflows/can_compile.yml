@@ -12,7 +12,7 @@ jobs:
       - name: lint
         run: cd backend && npm run lint  
       - name: compile
-        run: cd backend && npm run  tsc
+        run: cd backend && tsc
 
           
           
