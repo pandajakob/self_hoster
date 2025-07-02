@@ -22,11 +22,5 @@
     "url": "https://github.com/pandajakob/self_hoster/issues"
   },
   "homepage": "https://github.com/pandajakob/self_hoster#readme",
-  "dependencies": {
-    "@types/express": "^5.0.3",
-    "@types/multer": "^1.4.13",
-    "express": "^5.1.0",
-    "multer": "^2.0.1",
-    "typescript": "^5.8.3"
-  }
+  "dependencies": { }
 }

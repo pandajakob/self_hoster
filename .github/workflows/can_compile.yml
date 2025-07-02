@@ -8,11 +8,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
       - name: can install backend
-        run: npm install
-      - name: can compile backend
-        run: npm run compile
-      - name: can build frontend
-        run: npm run build
+        run: cd backend && npm install
+      - name: lint
+        run: cd backend && npm run lint  
+      - name: compile
+        run: cd backend && npm run  tsc
+
           
           
       - run: npm run compile
