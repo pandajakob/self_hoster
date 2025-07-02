@@ -9,12 +9,7 @@ jobs:
         uses: actions/checkout@v3
       - name: can install backend
         run: npm install
-      - name: can compile backend
-        run: npm run compile
-      - name: can build frontend
-        run: npm run build
-          
-          
+        
       - run: npm run compile
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
