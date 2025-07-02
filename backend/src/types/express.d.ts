@@ -17,3 +17,6 @@ declare global {
         password: string;
     }
 }
+declare global {
+    interface jwtVerifyError { }
+}

@@ -33,7 +33,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
       name,
       email,
       hashedPassword,
-      function (this: sqlite3.runResult, error: Error) {
+      function (this: any, error: Error) {
         if (error) {
           return res.status(401).json({
             success: false,
