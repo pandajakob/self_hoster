@@ -1,11 +1,10 @@
 name: Can_compile
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+run-name: ${{ github.actor }} is testing if typescript can compile
 on: [push]
 jobs:
   can_compile:
     runs-on: ubuntu-latest
     steps:
-      - run: npm install
       - run: npm run compile
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
