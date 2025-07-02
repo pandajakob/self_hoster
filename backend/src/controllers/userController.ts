@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import db from '../db/db.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { RunResult } from 'sqlite3';
 
 
 
@@ -33,7 +34,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
       name,
       email,
       hashedPassword,
-      function (this: any, error: Error) {
+      function (this: RunResult, error: Error) {
         if (error) {
           return res.status(401).json({
             success: false,
