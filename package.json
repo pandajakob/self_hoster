@@ -2,7 +2,7 @@
   "name": "self_hoster",
   "version": "1.0.0",
   "description": "",
-  "main": "backend/src/server.js",
+  "main": "backend/dist/server.js",
   "scripts": {
     "start": "cd backend && npm run start",
     "dev": "cd backend && npm run dev",
