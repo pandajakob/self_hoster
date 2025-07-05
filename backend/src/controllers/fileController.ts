@@ -12,13 +12,21 @@ export const uploadFile = (req: Request, res: Response, next: NextFunction) => {
       .json({ sucess: true, message: 'successfully uploaded file!' });
     const __filename = fileURLToPath(import.meta.url);
     const __dirname = dirname(__filename);
-        const userId = req.user?.id;
+    const userId = req.user?.id;
 
-    const uploadPath = path.join(__dirname, '..', 'db', `uploads`, `${userId}`, `${userId}.conf`);
-    writeFile( uploadPath,`
-server {
+    const uploadPath = path.join(
+      __dirname,
+      '..',
+      'db',
+      `uploads`,
+      `${userId}`,
+      `${userId}.conf`,
+    );
+    writeFile(
+      uploadPath,
+      `server {
   listen 80;
-  server_name jakobmichaelsen.dk;
+  server_name ${userId}.jakobmichaelsen.dk;
   root index.html
   location /${userId} { 
     return 301 https://$host$request_uri;  

@@ -4,7 +4,7 @@
   "description": "",
   "main": "backend/dist/server.js",
   "scripts": {
-    "start": "cd backend && npm run start",
+    "start": "node backend/dist/server.js",
     "dev": "cd backend && npm run dev",
     "build": "cd frontend && npm run build",
     "compile": "cd backend && npm run build",
@@ -17,10 +17,14 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
   "type": "module",
   "bugs": {
     "url": "https://github.com/pandajakob/self_hoster/issues"
   },
   "homepage": "https://github.com/pandajakob/self_hoster#readme",
-  "dependencies": { }
+  "dependencies": {}
 }

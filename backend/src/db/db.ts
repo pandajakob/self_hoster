@@ -1,5 +1,14 @@
+import path, { dirname } from 'path';
 import sqlite3  from 'sqlite3';
-const db = new sqlite3.Database('./src/db/users.db');
+import { fileURLToPath } from 'url';
+
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const dirPath = path.join(__dirname,'users.db');
+
+const db = new sqlite3.Database(dirPath);
 
 function createTable() {
      db.run(
