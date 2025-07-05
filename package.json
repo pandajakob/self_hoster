@@ -8,7 +8,9 @@
     "dev": "cd backend && npm run dev",
     "build": "cd frontend && npm run build",
     "compile": "cd backend && npm run build",
-    "frontend": "cd frontend && npm start"
+    "frontend": "cd frontend && npm start",
+    "backend-test": "cd backend && npm run test",
+    "frontend-test": "cd frontend && npm run test"
   },
   "repository": {
     "type": "git",
