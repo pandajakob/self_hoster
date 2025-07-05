@@ -11,7 +11,7 @@ jobs:
         run: cd backend && npm install
       - name: lint
         run: cd backend && npm run lint  
-      - name: compile
+      - name: unit test
         run: cd backend && npm run test
       - name: compile
         run: cd backend && tsc  
