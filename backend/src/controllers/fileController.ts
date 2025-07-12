@@ -27,10 +27,7 @@ export const uploadFile = (req: Request, res: Response, next: NextFunction) => {
       `server {
   listen 80;
   server_name ${userId}.jakobmichaelsen.dk;
-  root index.html
-  location /${userId} { 
-    return 301 https://$host$request_uri;  
-  }
+    root /etc/nginx/conf.d/self-hoster/${userId};
 }`,
       (err) => {
         console.log(err);
