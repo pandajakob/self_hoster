@@ -1,6 +1,6 @@
 import supertest from 'supertest'
 import app from '../dist/app.js'
-import db from '../dist/db/db.js'
+
 
 describe("POST /users/register", () => {
     describe("Given a name, email or password", () => {
