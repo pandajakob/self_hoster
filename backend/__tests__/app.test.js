@@ -5,13 +5,15 @@ import app from '../dist/app.js'
 describe("POST /users/register", () => {
     describe("Given a name, email or password", () => {
    
-        test("return code 200", async () => {
+        test("return code 401", async () => {
+            let ramdomMockEmail = `${Math.random()}@${Math.random()}.${Math.random()}`;
+            console.log("randomEmail")
             const response = await supertest(app).post("/users/register").send({
-                email: "john@doe.com",
                 name: "John Doe",
-                password: "safepassword"
+                email: ramdomMockEmail,
+                password: "safepassword1"
             })
-            expect(response.status).toBe(503); // because of missing db connection
+            expect(response.status).toBe(401); // because of missing secrets
 
         })
 
