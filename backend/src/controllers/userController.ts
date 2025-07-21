@@ -25,7 +25,8 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
     const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
-      res.status(401).json({ success: false, message: 'Provide all fields' });
+      res.status(400).json({ success: false, message: 'Provide all fields' });
+      return;
     }
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -36,15 +37,21 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
       hashedPassword,
       function (this: RunResult, error: Error) {
         if (error) {
-          return res.status(401).json({
+          res.status(503).json({
             success: false,
             message: 'Could not create user in database',
           });
+          return 
+
         }
         const id = this.lastID;
         const secret = process.env.JWT_SECRET;
         if (!secret) {
-          throw new Error('Missing JWT_SECRET in environment');
+          res.status(401).json({
+            success: false,
+            message: 'Missing SECRET in environment',
+          });
+          return
         }
 
         const token = jwt.sign({ id: id}, secret, {
@@ -58,8 +65,9 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
           maxAge: 7 * 24 * 60 * 60 * 1000,
         });
         res
-          .status(201)
-          .json({ success: true, message: 'Successfully registered user' });
+           .status(201)
+           .json({ success: true, message: 'Successfully registered user' });
+        return
       },
     );
   } catch (error) {
