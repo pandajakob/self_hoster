@@ -13,7 +13,7 @@ describe("POST /users/register", () => {
                 email: ramdomMockEmail,
                 password: "safepassword1"
             })
-            expect(response.status).toBe(401); // because of missing secrets
+            expect(response.status).toBe(201); 
 
         })
 
