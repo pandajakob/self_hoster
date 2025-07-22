@@ -44,13 +44,13 @@ describe("/files/upload", () => {
         const __filename = fileURLToPath(import.meta.url);
         const __dirname = dirname(__filename);
 
-        const filePath = path.join(__dirname, 'file.test.js');
+        const filePath = path.join(__dirname, 'helpers.js');
         const response = await agent.post("/files/upload").attach("file", filePath);
 
         expect(response.status).toBe(200)
 
         const htmlFilePath = path.join(__dirname, '..', 'dist', 'db', `uploads`, `1`, 'index.html'); // first id is 1
-        const extraFilePath = path.join(__dirname, '..', 'dist', 'db', `uploads`, `1`, 'file.test.js'); // first id is 1
+        const extraFilePath = path.join(__dirname, '..', 'dist', 'db', `uploads`, `1`, 'helpers.js'); // first id is 1
         const configFilePath = path.join(__dirname, '..', 'dist', 'db', `uploads`, `1`, '1.conf'); // first id is 1
 
         expect(existsSync(htmlFilePath)).toBe(true);
@@ -61,13 +61,13 @@ describe("/files/upload", () => {
         const __filename = fileURLToPath(import.meta.url);
         const __dirname = dirname(__filename);
 
-        const filePath = path.join(__dirname, 'file.test.js');
-        const response = await agent.delete("/files/delete" + "file.test.js");
+        const filePath = path.join(__dirname, 'helpers.js');
+        const response = await agent.delete("/files/delete" + "helpers.js");
 
         expect(response.status).toBe(204)
 
         const htmlFilePath = path.join(__dirname, '..', 'dist', 'db', `uploads`, `1`, 'index.html'); // first id is 1
-        const extraFilePath = path.join(__dirname, '..', 'dist', 'db', `uploads`, `1`, 'file.test.js'); // first id is 1
+        const extraFilePath = path.join(__dirname, '..', 'dist', 'db', `uploads`, `1`, 'helpers.js'); // first id is 1
         const configFilePath = path.join(__dirname, '..', 'dist', 'db', `uploads`, `1`, '1.conf'); // first id is 1
 
         expect(existsSync(htmlFilePath)).toBe(true);
