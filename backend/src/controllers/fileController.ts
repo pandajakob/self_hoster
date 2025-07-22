@@ -12,8 +12,8 @@ export const uploadFile = (req: Request, res: Response, next: NextFunction) => {
       res
         .status(200)
         .json({ sucess: true, message: 'successfully uploaded file!' });
+      return;
     }
-    return;
   } catch (error) {
     res.status(400).json({ success: false, message: error });
     next(error);
@@ -25,7 +25,7 @@ export const deleteFile = (req: Request, res: Response, next: NextFunction) => {
   try {
     const userId = req.user.id;
     const {fileName} = req.params
-    console.log("filename", fileName)
+
     const filePath = path.join(__dirname, '..', 'db', 'uploads', `${userId}`,`${fileName}`);
     if (!existsSync(filePath)) {
       res.status(404).json("file does not exist")
@@ -60,7 +60,6 @@ export const createConfigFile = (userId: string) => {
     root /etc/nginx/conf.d/self-hoster/${userId};
 }`,
     () => {
-
       return false;
     },
   );

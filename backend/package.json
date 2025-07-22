@@ -8,7 +8,7 @@
     "start": "node dist/server.js",
     "dev": "npx tsx src/server.ts",
     "lint": "eslint 'src/**/*.ts'",
-    "test": "tsc && NODE_OPTIONS=--experimental-vm-modules npx jest"
+    "test": "tsc && NODE_OPTIONS=--experimental-vm-modules npx jest --runInBand"
   },
   "keywords": [],
   "author": "",
