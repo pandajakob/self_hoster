@@ -34,18 +34,7 @@ export const getUserOmitPassword = async (
   }
 };
 
-export const getUsers = (req: Request, res: Response, next: NextFunction) => {
-  try {
-    db.all('SELECT * FROM users;', (err: Error, rows: Array<object>) => {
-      if (err) res.send(err);
-      else {
-        res.status(200).json(rows);
-      }
-    });
-  } catch (error) {
-    next(error);
-  }
-};
+
 
 // Read all items
 export const register = async (
@@ -194,14 +183,20 @@ export const getUserById = (
     const id = req.params.id;
     if (!id) {
       res.status(401).json({ success: false, message: 'Provide all fields' });
+      return
     }
     db.get('SELECT * FROM users WHERE id=?', id, (error: Error, row: User) => {
       if (error) {
         next(error);
       } else {
         row.password = '';
-        if (req.user?.id == id) return res.status(201).json(row);
-        else res.status(401).json({ success: false, message: 'unauthorized' });
+        if (req.user?.id == id) {
+          res.status(201).json(row); 
+          return
+        } else {
+          res.status(401).json({ success: false, message: 'unauthorized' });
+          return
+        }
       }
     });
   } catch (error) {
@@ -209,14 +204,7 @@ export const getUserById = (
   }
 };
 
-// Update an user
-export const updateUser = (req: Request, res: Response, next: NextFunction) => {
-  try {
-    console.log('updating user here');
-  } catch (error) {
-    next(error);
-  }
-};
+
 
 // Delete an user
 export const deleteUser = (req: Request, res: Response, next: NextFunction) => {
@@ -225,12 +213,14 @@ export const deleteUser = (req: Request, res: Response, next: NextFunction) => {
 
     if (!id) {
       res.status(404).json('ID not valid');
+      return;
     }
     db.run('DELETE FROM users WHERE id=?;', id, (error: Error) => {
       if (error) {
         next(error);
       } else {
         res.status(201).json({ message: 'deleted user with id', id });
+        return;
       }
     });
   } catch (error) {

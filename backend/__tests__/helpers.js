@@ -7,7 +7,7 @@ import app from '../dist/app.js'
 export const agent = request.agent(app);
 export const mockUser = {
         name: "John Doe",
-        email: `${Math.random()}@${Math.random()}.${Math.random()}`,
+        email: `john@doe.com`,
         password: "safepassword123"
     }
 export async function cleanUp() {
