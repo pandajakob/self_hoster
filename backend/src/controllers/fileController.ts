@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import { exists, existsSync, rmSync, writeFile } from 'fs';
+import {  existsSync, rmSync, writeFile } from 'fs';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -16,6 +16,7 @@ export const uploadFile = (req: Request, res: Response, next: NextFunction) => {
     return;
   } catch (error) {
     res.status(400).json({ success: false, message: error });
+    next(error);
     return;
   }
 };
@@ -37,6 +38,7 @@ export const deleteFile = (req: Request, res: Response, next: NextFunction) => {
 
   } catch (error) {
     res.status(400).json({ success: false, message: error });
+    next(error);
     return;
   }
 };
@@ -57,7 +59,8 @@ export const createConfigFile = (userId: string) => {
   server_name ${userId}.jakobmichaelsen.dk;
     root /etc/nginx/conf.d/self-hoster/${userId};
 }`,
-    (err) => {
+    () => {
+
       return false;
     },
   );
