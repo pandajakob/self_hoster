@@ -67,7 +67,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
         res
            .status(201)
            .json({ success: true, message: 'Successfully registered user' });
-        return
+        return;
       },
     );
   } catch (error) {

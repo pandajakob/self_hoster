@@ -1,13 +1,14 @@
 import supertest from 'supertest'
 import app from '../dist/app.js'
-import jwt from 'jsonwebtoken'
-
+import { cleanUp } from './helpers.js'
 describe("Authenthication", () => {
     const mockUser = {
         name: "John Doe",
         email: `${Math.random()}@${Math.random()}.${Math.random()}`,
         password: "safepassword123"
     }
+
+
 
     describe("POST /users/register", () => {
         describe("Given a name, email or password", () => {
@@ -39,7 +40,6 @@ describe("Authenthication", () => {
             })
         })
     })
-
 
     describe("POST /users/login", () => {
         describe("Given a name, email or password", () => {
@@ -80,10 +80,9 @@ describe("Authenthication", () => {
             })
         })
     })
+
     describe("POST /users/logout", () => {
         describe("Given a name, email or password", () => {
-
-
             test("return 200, no JWT token, JSON", async () => {
                 const response = await supertest(app).post("/users/logout").send(mockUser)
                 expect(response.status).toBe(200);
@@ -93,6 +92,8 @@ describe("Authenthication", () => {
                 expect(response.headers['content-type']).toBe("application/json; charset=utf-8");
             })
         })
-
     })
+
+    afterAll(async () => { await cleanUp() });
 })
+
