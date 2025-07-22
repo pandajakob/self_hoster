@@ -86,7 +86,6 @@ describe("Authenthication", () => {
 
 
             jwt.verify(token, secret, (err, user) => {
-                console.log("user", user)
                 expect(user.id).toBe(1);
             });
 
@@ -99,7 +98,7 @@ describe("Authenthication", () => {
 
                 // JSON Response
                 expect(response.headers['content-type']).toBe("application/json; charset=utf-8");
-                console.log("resp", response)
+
             })
         })
         describe("if not logged in", () => {
