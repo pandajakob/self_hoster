@@ -67,7 +67,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
         res
            .status(201)
            .json({ success: true, message: 'Successfully registered user' });
-        return
+        return;
       },
     );
   } catch (error) {
@@ -81,16 +81,17 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
       const { email, password } = req.body;
 
       if (!email || !password) {
-        res.status(401).json({ success: false, message: 'Provide all fields' });
+        res.status(400).json({ success: false, message: 'Provide all fields' });
+        return;
       }
       const user: User = await fetchByEmail(email);
       if (!user) {
-        res.status(402).json({ success: false, message: 'Email or password is incorrect' });
+        res.status(404).json({ success: false, message: 'Email or password is incorrect' });
         return;
       }
       const isMatch = await bcrypt.compare(password, user.password);
       if (!isMatch) {
-        res.status(402).json({ success: false, message: 'Email or password is incorrect' });
+        res.status(404).json({ success: false, message: 'Email or password is incorrect' });
         return;
       }
       const secret = process.env.JWT_SECRET;

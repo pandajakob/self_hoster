@@ -7,6 +7,7 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import { existsSync, mkdirSync } from 'fs';
 import { authenticator } from '../middleware/authenticator.js';
+import { errorHandler } from '../middleware/errorHandler.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -30,7 +31,7 @@ const upload = multer({ storage });
 
 const router = Router();
 
-router.post('/upload', authenticator, upload.single('file'), uploadFile);
-router.delete('/delete', authenticator, upload.single('file'), deleteFile);
+router.post('/upload', authenticator, upload.single('file'), uploadFile, errorHandler);
+router.delete('/delete:fileName', authenticator, deleteFile, errorHandler);
 
 export default router;
