@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 
 
-export const authenticator = (req: Request,res: Response,next: NextFunction) => {
+export const authenticator = (req: Request, res: Response,next: NextFunction) => {
   try {
         const secret = process.env.JWT_SECRET;
 

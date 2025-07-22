@@ -31,7 +31,7 @@ const upload = multer({ storage });
 
 const router = Router();
 
-router.post('/upload', authenticator, upload.single('file'), uploadFile, errorHandler);
-router.delete('/delete:fileName', authenticator, deleteFile, errorHandler);
+router.post('/upload', authenticator, upload.single('file'), uploadFile);
+router.delete('/delete:fileName', authenticator, deleteFile);
 
 export default router;

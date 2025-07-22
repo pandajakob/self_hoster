@@ -1,21 +1,13 @@
-import request from 'supertest'
 import supertest from 'supertest'
-import app from '../dist/app.js'
 import path from 'path';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { existsSync } from 'fs'
-import { cleanUp } from './helpers.js';
+import { cleanUp, agent, mockUser } from './helpers.js';
 
 
 
 describe("/files/upload", () => {
-    let agent = request.agent(app);
-    const mockUser = {
-        name: "John Doe",
-        email: `${Math.random()}@${Math.random()}.${Math.random()}`,
-        password: "safepassword"
-    }
 
     beforeAll(async () => {
         // This login call will store the Set‑Cookie header internally
@@ -75,14 +67,8 @@ describe("/files/upload", () => {
         expect(existsSync(configFilePath)).toBe(true);
     })
 
-
-    
-
     afterAll(async () => { await cleanUp() });
 
-
-    // if registered
-    // create file
 });
 
 

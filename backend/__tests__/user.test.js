@@ -1,20 +1,14 @@
 import supertest from 'supertest'
 import app from '../dist/app.js'
-import { cleanUp } from './helpers.js'
+import { cleanUp, agent, mockUser } from './helpers.js'
+import jwt from 'jsonwebtoken'
+
 describe("Authenthication", () => {
-    const mockUser = {
-        name: "John Doe",
-        email: `${Math.random()}@${Math.random()}.${Math.random()}`,
-        password: "safepassword123"
-    }
-
-
-
     describe("POST /users/register", () => {
         describe("Given a name, email or password", () => {
 
             test("return code 201, return JSON, sets JWT token", async () => {
-                const response = await supertest(app).post("/users/register").send(mockUser)
+                const response = await agent.post("/users/register").send(mockUser)
 
                 // status code
                 expect(response.status).toBe(201);
@@ -30,7 +24,7 @@ describe("Authenthication", () => {
         })
         describe("when missing name, email or password", () => {
             test("return code 400, no JWT token, returns JSON", async () => {
-                const response = await supertest(app).post("/users/register").send({ name: "", email: "", password: "" })
+                const response = await agent.post("/users/register").send({ name: "", email: "", password: "" })
 
                 expect(response.status).toBe(400);
 
@@ -46,7 +40,7 @@ describe("Authenthication", () => {
 
             describe("user exists", () => {
                 test("return 200, JWT token, JSON", async () => {
-                    const response = await supertest(app).post("/users/login").send(mockUser)
+                    const response = await agent.post("/users/login").send(mockUser)
                     expect(response.status).toBe(200);
 
                     // JWT token
@@ -61,7 +55,7 @@ describe("Authenthication", () => {
 
             describe("Incorrect email or password", () => {
                 test("return 404, no JWT token, JSON response", async () => {
-                    const response = await supertest(app).post("/users/login").send({ email: "wrongemail", password: "badpassword" })
+                    const response = await agent.post("/users/login").send({ email: "wrongemail", password: "badpassword" })
                     expect(response.status).toBe(404);
 
                     expect('set-cookie' in response.header).toBe(false);
@@ -74,17 +68,57 @@ describe("Authenthication", () => {
 
         describe("when missing name, email or password", () => {
             test("return code 400, JSON response", async () => {
-                const response = await supertest(app).post("/users/login").send({ email: "", name: "", password: "" })
+                const response = await agent.post("/users/login").send({ email: "", name: "", password: "" })
                 expect(response.status).toBe(400);
                 expect(response.headers['content-type']).toBe("application/json; charset=utf-8");
             })
+        })
+    })
+    describe("GET /users", () => {
+        test("verify JWT payload is ID", async () => {
+            const secret = process.env.JWT_SECRET
+            const response = await agent.post("/users/login").send(mockUser).expect(200);
+
+            // extract token from headers
+            const setCookies = response.header['set-cookie'][0].split(";");
+            const token = setCookies[0].split("=")[1]
+
+
+
+            jwt.verify(token, secret, (err, user) => {
+                console.log("user", user)
+                expect(user.id).toBe(1);
+            });
+
+        })
+    })
+    describe("GET /users", () => {
+        describe("if logged in", () => {
+            test("return 200, JWT token, JSON", async () => {
+                const response = await agent.get("/users/").expect(200);
+
+                // JSON Response
+                expect(response.headers['content-type']).toBe("application/json; charset=utf-8");
+                console.log("resp", response)
+            })
+        })
+        describe("if not logged in", () => {
+            test("returns 404, JSON response", async () => {
+                await agent.post("/users/logout").send(mockUser);
+                
+                const response = await agent.get("/users/").expect(400);
+
+                // JSON Response
+                expect(response.headers['content-type']).toBe("application/json; charset=utf-8");
+            })
+
         })
     })
 
     describe("POST /users/logout", () => {
         describe("Given a name, email or password", () => {
             test("return 200, no JWT token, JSON", async () => {
-                const response = await supertest(app).post("/users/logout").send(mockUser)
+                const response = await agent.post("/users/logout").send(mockUser)
                 expect(response.status).toBe(200);
 
                 expect(response.headers['set-cookie'][0].includes("token=;")).toBe(true);
@@ -93,7 +127,7 @@ describe("Authenthication", () => {
             })
         })
     })
-
     afterAll(async () => { await cleanUp() });
+
 })
 
