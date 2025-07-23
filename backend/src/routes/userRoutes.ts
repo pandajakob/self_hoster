@@ -16,7 +16,7 @@ router.get('/', authenticator, getUserOmitPassword);
 router.post('/register', register);
 router.post('/login', login);
 router.get('/:id', authenticator, getUserById);
-router.delete('/:id', authenticator, deleteUser);
+router.delete('/delete', authenticator, deleteUser);
 router.post('/logout', logout);
 
 export default router;

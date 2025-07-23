@@ -8,7 +8,6 @@ import { cleanUp, agent, mockUser } from './helpers.js';
 
 
 describe("/files/upload", () => {
-
     beforeAll(async () => {
         // This login call will store the Set‑Cookie header internally
         await agent.post("/users/register").send(mockUser).expect(201); // register
