@@ -12,6 +12,7 @@ export const getUserOmitPassword = async (
   const id = req.user.id;
   console.log('USERID', id);
   if (!id) {
+    res.status(401).json('unauthorized');
     return;
   }
   try {
@@ -209,17 +210,16 @@ export const getUserById = (
 // Delete an user
 export const deleteUser = (req: Request, res: Response, next: NextFunction) => {
   try {
-    const id = req.params.id;
-
+    const id = req.user.id;
     if (!id) {
-      res.status(404).json('ID not valid');
+      res.status(401).json('unauthorized');
       return;
     }
     db.run('DELETE FROM users WHERE id=?;', id, (error: Error) => {
       if (error) {
         next(error);
       } else {
-        res.status(201).json({ message: 'deleted user with id', id });
+        res.status(204).json({ message: 'deleted user with id', id });
         return;
       }
     });

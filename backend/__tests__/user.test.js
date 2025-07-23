@@ -75,7 +75,7 @@ describe("Authenthication", () => {
         })
     })
     describe("GET /users", () => {
-        test("verify JWT payload is ID", async () => {
+        test("verify JWT payload is user ID", async () => {
             const secret = process.env.JWT_SECRET
             const response = await agent.post("/users/login").send(mockUser).expect(200);
 
@@ -91,28 +91,53 @@ describe("Authenthication", () => {
 
         })
     })
-    describe("GET /users", () => {
+    describe("GET /users/", () => {
         describe("if logged in", () => {
-            test("return 200, JWT token, JSON", async () => {
+            test("return 200, JWT token, JSON, user in body without password", async () => {
                 const response = await agent.get("/users/").expect(200);
-
+                console.log("response body", response.body)
                 // JSON Response
                 expect(response.headers['content-type']).toBe("application/json; charset=utf-8");
-
+                expect(response.body.email).toBe(mockUser.email)
+                expect(response.body.name).toBe(mockUser.name)
+                expect(response.body.id).toBe(1)
+                expect(response.body.password).toBe("")
             })
         })
         describe("if not logged in", () => {
-            test("returns 404, JSON response", async () => {
+            test("returns 404, JSON response, not contain any information", async () => {
                 await agent.post("/users/logout").send(mockUser);
                 
                 const response = await agent.get("/users/").expect(400);
 
                 // JSON Response
                 expect(response.headers['content-type']).toBe("application/json; charset=utf-8");
+                expect(response.body.email).toBe(undefined)
+                expect(response.body.name).toBe(undefined)
+                expect(response.body.id).toBe(undefined)
+                expect(response.body.password).toBe(undefined)
+                
             })
 
         })
     })
+
+   describe("DELETE /users/delete", () =>{
+        describe("Given logged in", ()=>{
+            test("Return 204, cant login, JSON response", async () => {
+                await agent.post("/users/login").send(mockUser).expect(200); // login
+                
+                await agent.delete("/users/delete").expect(204);
+
+                await agent.post("/users/login").send(mockUser).expect(404); // try login again
+            })
+        })
+        describe("Given not logged in", ()=>{
+
+
+        })
+    })
+    
 
     describe("POST /users/logout", () => {
         describe("Given a name, email or password", () => {
@@ -126,6 +151,8 @@ describe("Authenthication", () => {
             })
         })
     })
+
+ 
     afterAll(async () => { await cleanUp() });
 
 })
