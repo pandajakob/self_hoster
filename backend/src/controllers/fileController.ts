@@ -33,6 +33,7 @@ export const getAllFiles = async (req: Request, res: Response, next: NextFunctio
       res.status(404).json({ success: false });
       return;
     }
+    
     const AllFileStats: Array<object> = [];
 
     for (let i = 0; i < files.length; i++) {
