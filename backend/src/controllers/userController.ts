@@ -10,7 +10,6 @@ export const getUserOmitPassword = async (
   next: NextFunction,
 ) => {
   const id = req.user.id;
-  console.log('USERID', id);
   if (!id) {
     res.status(401).json('unauthorized');
     return;

@@ -95,8 +95,8 @@ describe("Authenthication", () => {
         describe("if logged in", () => {
             test("return 200, JWT token, JSON, user in body without password", async () => {
                 const response = await agent.get("/users/").expect(200);
-                console.log("response body", response.body)
-                // JSON Response
+                
+                // JSON Response + correct body
                 expect(response.headers['content-type']).toBe("application/json; charset=utf-8");
                 expect(response.body.email).toBe(mockUser.email)
                 expect(response.body.name).toBe(mockUser.name)
