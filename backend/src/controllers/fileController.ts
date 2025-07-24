@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import {  existsSync, stat, readdirSync, rmSync, writeFile, mkdirSync, statSync } from 'fs';
+import {  existsSync, readdirSync, rmSync, writeFile, mkdirSync, statSync } from 'fs';
 import multer from 'multer';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -33,7 +33,7 @@ export const getAllFiles = async (req: Request, res: Response, next: NextFunctio
       res.status(404).json({ success: false });
       return;
     }
-    let AllFileStats: Array<Object> = [];
+    const AllFileStats: Array<object> = [];
 
     for (let i = 0; i < files.length; i++) {
       if (files[i].includes('.conf')) continue;
