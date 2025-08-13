@@ -7,9 +7,9 @@ interface User {
   // any other fields you return…
 }
 interface AuthProps {
-  onSetUser: (user: User) => void;
+  onSetUserLoggedIn: (userLoggedIn: Boolean) => void;
 }
-export function Register({onSetUser}:AuthProps) {
+export function Register({onSetUserLoggedIn}:AuthProps) {
   const [isLoading, setLoading] = useState(false);
 
   // user data:
@@ -33,7 +33,7 @@ export function Register({onSetUser}:AuthProps) {
 
       console.log("data",data);
 
-      onSetUser(data);
+      onSetUserLoggedIn(true);
     } catch (error) {
       console.log(error);
     } finally {

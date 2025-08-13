@@ -8,9 +8,9 @@ interface User {
   // any other fields you return…
 }
 interface AuthProps {
-  onSetUser: (user: User) => void;
+  onSetUserLoggedIn: (userLoggedIn: Boolean) => void;
 }
-export function Login({onSetUser}:AuthProps) {
+export function Login({onSetUserLoggedIn}:AuthProps) {
   const [isLoading, setLoading] = useState(false);
   const [goToRegiser, setgoToRegiser] = useState(false);
 
@@ -33,7 +33,7 @@ export function Login({onSetUser}:AuthProps) {
 
       console.log("data",data);
 
-      onSetUser(data);
+      onSetUserLoggedIn(true);
     } catch (error) {
       console.log(error);
     } finally {
@@ -41,7 +41,7 @@ export function Login({onSetUser}:AuthProps) {
     }
   }
   if (goToRegiser) {
-    return <Register onSetUser={onSetUser}/>
+    return <Register onSetUserLoggedIn={onSetUserLoggedIn}/>
   }
   
   if (isLoading) {

@@ -1,3 +1,4 @@
+import { exec } from 'child_process';
 import { Request, Response, NextFunction } from 'express';
 import {  existsSync, readdirSync, rmSync, writeFile, mkdirSync, statSync } from 'fs';
 import multer from 'multer';
@@ -74,6 +75,7 @@ export const uploadFile = (req: Request, res: Response, next: NextFunction) => {
       res
         .status(200)
         .json({ sucess: true, message: 'successfully uploaded file!' });
+      exec("docker exec nginx-proxy nginx -s reload");
       return;
     }
   } catch (error) {
