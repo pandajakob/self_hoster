@@ -6,18 +6,17 @@ import { Header } from "./components/header";
 import { Footer } from "./components/footer";
 
 function App() {
-  type User = { id: string; name: string; email: string; password: string };
-  const [user, setUser] = useState<User | null>(null); // {id: "", name: "", email: "", password: ""}
 
-  const updateUser = (usr: any) => {
-    setUser(usr);
+  const [userLoggedIn, setUserLoggedIn] = useState<boolean>(true); // {id: "", name: "", email: "", password: ""}
+
+  const updateUserLoggedIn = (usr: any) => {
+    setUserLoggedIn(usr);
   };
   return (
     <main>
       <Header/>
-      
-      {!user ? (
-        <Login onSetUser={updateUser} />
+      {!userLoggedIn ? (
+        <Login onSetUserLoggedIn={updateUserLoggedIn} />
       ) : (
         <div className="container">
           <h1> Upload files: </h1>
