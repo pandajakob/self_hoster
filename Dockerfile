@@ -1,5 +1,5 @@
 # Use official Node.js image
-FROM node:20
+FROM node:20-slim
 
 # Set working directory inside the container
 WORKDIR /app
@@ -22,7 +22,6 @@ COPY . .
 
 
 # Expose the port your app runs on (optional)
-ENV port=3000
 ENV port=3000
 
 EXPOSE 3000
