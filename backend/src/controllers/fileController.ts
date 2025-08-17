@@ -75,7 +75,7 @@ export const uploadFile = (req: Request, res: Response, next: NextFunction) => {
       res
         .status(200)
         .json({ sucess: true, message: 'successfully uploaded file!' });
-      exec("docker exec nginx-proxy nginx -s reload");
+  
       return;
     }
   } catch (error) {

@@ -1,24 +1,47 @@
-export function Header() {
-  return (
-    <div className="header">
+import { useState } from "react";
+import { Profile } from "./profile";
+
+interface Props {
+  userLoggedIn: boolean,
+  onSetUserLoggedIn: (userLoggedIn: Boolean) => void;
+    onUpdatePage: (page: string) => void;
+
+}
+
+export function Header( {userLoggedIn, onSetUserLoggedIn, onUpdatePage}:Props) {
+
+
+
+  if (userLoggedIn) {
+    return (<div className="header">
       <a href="#default" className="logo">
         CompanyLogo
       </a>
       <div className="header-right">
-        <a className="active" href="#home">
-          Home
+
+        <a onClick={()=>{onUpdatePage("PROFILE")}}>
+          Profile
         </a>
 
-        <a> Login</a>
-        <a
+               <a
           onClick={() => {
-            fetch("/users/logout", {method: "POST"});
+            fetch("/users/logout", {method: "POST"}).then(()=>{
+                      onSetUserLoggedIn(false);
+            });
           }}
         >
-          {" "}
-          Logout
-        </a>
+          Sign out
+        </a> 
+ 
+      </div>
+      </div>)
+  } 
+  return <div className="header">
+      <a href="#default" className="logo" onClick={()=>{onUpdatePage("DEFAULT")}}>
+        CompanyLogo
+      </a>
+      <div className="header-right">
+        <a> Sign in</a>
       </div>
     </div>
-  );
 }

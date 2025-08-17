@@ -8,3 +8,7 @@ src
 /src
 ./src
 **/*/src
+__tests__
+/__tests__
+*/__tests__
+**/*/__tests__

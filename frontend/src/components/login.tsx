@@ -17,6 +17,9 @@ export function Login({onSetUserLoggedIn}:AuthProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  const [errorText, setErrorText] = useState("");
+
+
   async function login(e: FormEvent<HTMLFormElement>) {
     setLoading(true);
     const user = {email, password };
@@ -27,14 +30,12 @@ export function Login({onSetUserLoggedIn}:AuthProps) {
         body: JSON.stringify(user),
       });
       if (!response.ok) {
-        console.log("error", response.statusText);
+        setErrorText(response.statusText)
+        return;
       }
-      let data = await response.json();
-
-      console.log("data",data);
-
       onSetUserLoggedIn(true);
     } catch (error) {
+      onSetUserLoggedIn(false)
       console.log(error);
     } finally {
       setLoading(false);
@@ -79,6 +80,7 @@ export function Login({onSetUserLoggedIn}:AuthProps) {
             required
           ></input>
           <input type="submit" value="Submit" />
+          <small style={{color: "red"}}> {errorText} </small>
         </form>
         <small>
           {" "}
