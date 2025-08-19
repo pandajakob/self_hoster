@@ -117,11 +117,41 @@ export const createConfigFile = (userId: string) => {
   );
   writeFile(
     uploadPath,
-    `server {
-  listen 80;
-  server_name ${userId}.jakobmichaelsen.dk;
+    `
+server {
+    listen [::]:443 ssl;
+    listen 443 ssl; 
+
+    error_log  /var/log/nginx/error.log;
+    access_log /var/log/nginx/access.log;
+      
+    server_name ${userId}.jakobmichaelsen.dk;
     root /etc/nginx/conf.d/self-hoster/${userId};
-}`,
+
+    ssl_certificate /etc/letsencrypt/live/jakobmichaelsen.dk/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/jakobmichaelsen.dk/privkey.pem;
+ 
+    location / {
+        proxy_pass         http://nextcloud:80;
+        proxy_set_header   Host $host;
+        proxy_set_header   X-Real-IP $remote_addr;
+        proxy_set_header   X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+}
+
+server {
+    listen 80;
+    server_name nextcloud.jakobmichaelsen.dk;
+    root /etc/nginx/conf.d/self-hoster/${userId};
+
+    location ^~ /.well-known/acme-challenge/ {
+      root /var/www/certbot;
+      try_files $uri =404;
+    }
+
+}
+    
+`,
     () => {
       return false;
     },
