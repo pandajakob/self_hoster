@@ -6,12 +6,17 @@ import { Header } from "./components/header";
 import { Footer } from "./components/footer";
 import { Profile } from "./components/profile";
 
+interface File {
+  name: string;
+  dateCreated: string;
+  size: number;
+}
+
 function App() {
 
   const [userLoggedIn, setUserLoggedIn] = useState<boolean>(false); // {id: "", name: "", email: "", password: ""}
 
   const [page, setPage] = useState<String>("DEFAULT")
-
 
   const updateUserLoggedIn = (usr: any) => {
     setUserLoggedIn(usr);
