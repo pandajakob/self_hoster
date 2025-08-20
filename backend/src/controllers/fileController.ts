@@ -128,8 +128,8 @@ server {
     server_name ${userId}.jakobmichaelsen.dk;
     root /etc/nginx/conf.d/self-hoster/${userId};
 
-    ssl_certificate /etc/letsencrypt/live/jakobmichaelsen.dk/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/jakobmichaelsen.dk/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/jakobmichaelsen.dk-0002/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/jakobmichaelsen.dk-0002/privkey.pem;
  
     location / {
         proxy_pass         http://nextcloud:80;
