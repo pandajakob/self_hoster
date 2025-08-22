@@ -39,7 +39,7 @@ jobs:
         with:
           context: "{{defaultContext}}"
           push: true
-          tags: 1.1
+          tags: ${{ steps.meta.outputs.tags.latest }}
           labels: ${{ steps.meta.outputs.labels }}
 
       
