@@ -1,6 +1,6 @@
 name: push_to_registry
 on:
-  pull_request:
+  push:
     branches: [ "main" ]
 env:
   # Use docker.io for Docker Hub if empty
