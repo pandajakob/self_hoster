@@ -9,7 +9,7 @@ env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: docker.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: jakobjakob/self-hoster
+  IMAGE_NAME: jakobjakob/self-hoster:1.1
 jobs:
   build:
     runs-on: ubuntu-latest
