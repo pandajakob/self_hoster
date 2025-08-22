@@ -1,8 +1,8 @@
-name: can_compile
+name: tests
 run-name: ${{ github.actor }} is testing if typescript can compile
 on: [push]     # <-- this must exactly match the env name in your repo settings
 jobs:
-  can_compile:
+  tests:
     runs-on: ubuntu-latest
     environment: development 
     env:
