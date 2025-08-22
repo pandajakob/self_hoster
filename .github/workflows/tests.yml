@@ -1,6 +1,8 @@
 name: tests
 run-name: ${{ github.actor }} is testing if typescript can compile
-on: [push]     # <-- this must exactly match the env name in your repo settings
+on:
+  pull_request:
+    branches: [ "main" ]
 jobs:
   tests:
     runs-on: ubuntu-latest
