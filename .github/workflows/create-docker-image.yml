@@ -12,6 +12,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Docker image
-      run: docker build jakobjakob/self-hoster:1.1 .
+      run: docker build . --file Dockerfile --tag jakobjakob/self-hoster:1.1
     - name: Push the image
       run: docker push jakobjakob/self-hoster:1.1
