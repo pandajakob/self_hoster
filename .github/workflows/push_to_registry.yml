@@ -31,7 +31,7 @@ jobs:
           context: "{{defaultContext}}"
           push: true
           tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+          labels: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:1.1
 
       
 
