@@ -24,10 +24,6 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: build
         run: docker buildx build --platform linux/amd64,linux/arm64 -t jakobjakob/self-hoster:1.1 --push .
-
-      - name: push
-        run: docker push jakobjakob/self-hoster:1.1
-
       
 
 
