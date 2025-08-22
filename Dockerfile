@@ -12,14 +12,12 @@ COPY ./frontend/package*.json ./frontend/
 # Install dependencies
 RUN cd backend && npm install
 RUN cd frontend && npm install
+
+RUN npm run compile
+RUN npm run build
+
 # Copy the rest of the project files
 COPY . .
-
-
-
-
-
-
 
 # Expose the port your app runs on (optional)
 ENV port=3000
