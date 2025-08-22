@@ -26,11 +26,3 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-.git
-*.git
-/.git
-*/.git
-*.github
-/.github
-.github
-
