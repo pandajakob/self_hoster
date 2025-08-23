@@ -9,3 +9,7 @@ export interface FileStats {
   dateCreated: string;
   size: number;
 }
+
+export interface AuthProps {
+  onSetUserLoggedIn: (userLoggedIn: Boolean) => void;
+}

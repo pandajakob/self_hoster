@@ -5,9 +5,7 @@ interface Props {
   userLoggedIn: boolean,
   onSetUserLoggedIn: (userLoggedIn: Boolean) => void;
     onUpdatePage: (page: string) => void;
-
 }
-
 export function Header( {userLoggedIn, onSetUserLoggedIn, onUpdatePage}:Props) {
 
 

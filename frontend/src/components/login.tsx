@@ -1,15 +1,8 @@
 import { FormEvent, useState } from "react";
 import { Loader } from "./loader";
 import { Register } from "./register";
-// 1) Define the shape of your user object (as returned by your API)
-interface User {
-  name: string;
-  email: string;
-  // any other fields you return…
-}
-interface AuthProps {
-  onSetUserLoggedIn: (userLoggedIn: Boolean) => void;
-}
+import { AuthProps } from "../types/interfaces";
+
 export function Login({onSetUserLoggedIn}:AuthProps) {
   const [isLoading, setLoading] = useState(false);
   const [goToRegiser, setgoToRegiser] = useState(false);
@@ -18,7 +11,6 @@ export function Login({onSetUserLoggedIn}:AuthProps) {
   const [password, setPassword] = useState("");
 
   const [errorText, setErrorText] = useState("");
-
 
   async function login(e: FormEvent<HTMLFormElement>) {
     setLoading(true);

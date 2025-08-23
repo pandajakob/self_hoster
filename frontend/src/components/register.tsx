@@ -1,14 +1,7 @@
 import { FormEvent, useState } from "react";
 import { Loader } from "./loader";
-// 1) Define the shape of your user object (as returned by your API)
-interface User {
-  name: string;
-  email: string;
-  // any other fields you return…
-}
-interface AuthProps {
-  onSetUserLoggedIn: (userLoggedIn: Boolean) => void;
-}
+import { AuthProps } from "../types/interfaces";
+
 export function Register({onSetUserLoggedIn}:AuthProps) {
   const [isLoading, setLoading] = useState(false);
 
