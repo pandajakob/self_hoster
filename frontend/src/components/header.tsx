@@ -14,8 +14,8 @@ export function Header( {userLoggedIn, onSetUserLoggedIn, onUpdatePage}:Props) {
 
   if (userLoggedIn) {
     return (<div className="header">
-      <a href="#default" className="logo">
-        CompanyLogo
+      <a href="#default" className="logo" onClick={()=>{onUpdatePage("DEFAULT")}}>
+        Home
       </a>
       <div className="header-right">
 

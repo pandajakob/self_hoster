@@ -1,41 +1,21 @@
 import { useEffect, useState } from "react";
 import { Loader } from "./loader";
-interface User {
-  name: string;
-  email: string;
-  id: string;
-  // any other fields you return…
-}
+import { getUserInfo } from "../scripts/apiFunctions";
+import { User } from "../types/interfaces";
 export function Profile() {
   const [userInfo, setUserInfo] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
-  async function getUserInfo() {
-    setLoading(true);
-
-    try {
-      let response = await fetch("/users/");
-      if (!response.ok) {
-        return;
-      }
-      let data = await response.json();
-      setUserInfo(data);
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
   useEffect(() => {
-    getUserInfo();
+    setLoading(true);
+    getUserInfo().then(setUserInfo).finally(()=>{setLoading(false)});
   }, []);
   
   if (loading) {
-    return <Loader />;
   }
   return (
     <article>
+      {loading ? <Loader /> : <div/>}
       <h1> profile </h1>
       <p> Email: {userInfo?.email} </p>
             <p> Name: {userInfo?.name} </p>

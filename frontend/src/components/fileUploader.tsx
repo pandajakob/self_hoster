@@ -1,17 +1,14 @@
 import { ChangeEvent, useEffect, useState, FormEvent } from "react";
 import { Loader } from "./loader";
+import { getFiles, getUserInfo } from "../scripts/apiFunctions";
+import { FileStats } from "../types/interfaces";
 
-interface FileStats {
-  name: string;
-  dateCreated: string;
-  size: number;
-}
 
 export function FileUploader() {
   const [file, setFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [uploadedFiles, setUploadedFiles] = useState<Array<FileStats>>([]);
-
+  const [userWebsiteURL, setUserWebsiteUrl] = useState<string>("")
 
   function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.files) {
@@ -21,25 +18,7 @@ export function FileUploader() {
       setFile(e.target.files[0]);
     }
   }
-  async function getFiles() {
-    try {
-      const response = await fetch("/files");
-      if (!response.ok && response.status != 400) {
-        alert(`Error getting all files: ${response.status}`);
-        return;
-      }
-      if (response.status == 400 ) {
-        return;
-      }
-      
-      let data = await response.json();
 
-      setUploadedFiles(data);
-
-    } catch(error) {
-      alert(error);
-    }
-  }
 
   async function handleFileUpload(e: FormEvent<HTMLFormElement>) {
     if (!file) return;
@@ -69,7 +48,11 @@ export function FileUploader() {
     }
   }
   useEffect(() => {
-      getFiles()
+    setIsLoading(true)
+      getFiles().then((res)=>{setUploadedFiles( res ? res : []) }).finally(()=>{setIsLoading(false)})
+    
+      getUserInfo().then((res)=>{setUserWebsiteUrl(`${res.id}.jakobmichaelsen.dk`)})
+
   }, []);
 
   if (isLoading) {
@@ -89,6 +72,7 @@ export function FileUploader() {
           </form>
         )}
       </article>
+      <p>Available on: <a href={userWebsiteURL}> {userWebsiteURL}</a></p>
       <h2> Uploaded files: </h2>
 
       {Array.from(uploadedFiles).map((file, i) => (
