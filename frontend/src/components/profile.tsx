@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Loader } from "./loader";
 import { getUserInfo } from "../scripts/apiFunctions";
 import { User } from "../types/interfaces";
+
 export function Profile() {
   const [userInfo, setUserInfo] = useState<User | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
