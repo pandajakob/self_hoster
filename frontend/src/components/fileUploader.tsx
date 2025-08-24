@@ -51,7 +51,7 @@ export function FileUploader() {
     setIsLoading(true)
       getFiles().then((res)=>{setUploadedFiles( res ? res : []) }).finally(()=>{setIsLoading(false)})
     
-      getUserInfo().then((res)=>{setUserWebsiteUrl(`${res.id}.jakobmichaelsen.dk`)})
+      getUserInfo().then((res)=>{setUserWebsiteUrl(`https://${res.id}.jakobmichaelsen.dk`)})
 
   }, []);
 

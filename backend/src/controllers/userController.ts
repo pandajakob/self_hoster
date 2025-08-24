@@ -18,7 +18,11 @@ export const getUserOmitPassword = async (
     db.get('SELECT * FROM users WHERE id=?', id, (error: Error, row: User) => {
       if (error) {
         next(error);
-      } else {
+      } else if (!row.password || !row.email || !row.name || !row.id) {
+         res.status(500).json('something went wrong');
+        return;
+      }
+      else {
         row.password = '';
         if (req.user?.id == id) {
           res.status(200).json(row);

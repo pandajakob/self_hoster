@@ -20,12 +20,9 @@ export function Register({onSetUserLoggedIn}:AuthProps) {
         body: JSON.stringify(user),
       });
       if (!response.ok) {
-        console.log("error", response.statusText);
+        window.alert(`Error registering: ${response.statusText}`);
+        return;
       }
-      let data = await response.json();
-
-      console.log("data",data);
-
       onSetUserLoggedIn(true);
     } catch (error) {
       console.log(error);
