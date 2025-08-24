@@ -16,7 +16,7 @@ describe("file handling tests", () => {
             const __filename = fileURLToPath(import.meta.url);
             const __dirname = dirname(__filename);
 
-            const filePath = path.join(__dirname, 'index.html');
+            const filePath = path.join(__dirname, 'mockFiles', 'index.html');
             const response = await agent.post("/files/upload").attach("file", filePath);
 
             expect(response.status).toBe(200)
@@ -32,13 +32,13 @@ describe("file handling tests", () => {
             const __filename = fileURLToPath(import.meta.url);
             const __dirname = dirname(__filename);
 
-            const filePath = path.join(__dirname, 'helpers.js');
+            const filePath = path.join(__dirname, 'mockFiles','script.js');
             const response = await agent.post("/files/upload").attach("file", filePath);
 
             expect(response.status).toBe(200)
 
             const htmlFilePath = path.join(__dirname, '..', 'dist', 'db', `uploads`, `1`, 'index.html'); // first id is 1
-            const extraFilePath = path.join(__dirname, '..', 'dist', 'db', `uploads`, `1`, 'helpers.js'); // first id is 1
+            const extraFilePath = path.join(__dirname, '..', 'dist', 'db', `uploads`, `1`, 'script.js'); // first id is 1
             const configFilePath = path.join(__dirname, '..', 'dist', 'db', `uploads`, `1`, '1.conf'); // first id is 1
 
             expect(existsSync(htmlFilePath)).toBe(true);
